@@ -1,0 +1,111 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Qualistech-api Documentation",
+        "description": "petshop api",
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://qualistech.local",
+            "description": "local server"
+        }
+    ],
+    "paths": {
+        "/api/curp-validate": {
+            "get": {
+                "tags": [
+                    "CURP"
+                ],
+                "summary": "Valida datos del CURP",
+                "description": "Retorna errores en la captura o vacío en caso de éxito.",
+                "operationId": "f439add6e678dc6f2996a1e63208e57e",
+                "parameters": [
+                    {
+                        "name": "curp",
+                        "in": "query",
+                        "description": "CURP",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "nombres",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "apellido1",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "apellido2",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "fechaNacimiento",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "format": "date-time",
+                            "example": "2017-07-21T17:32:28Z"
+                        }
+                    },
+                    {
+                        "name": "sexo",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string",
+                            "enum": [
+                                "Masculino",
+                                "Femenino"
+                            ]
+                        }
+                    },
+                    {
+                        "name": "esMexicano",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "boolean"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "OK"
+                    },
+                    "400": {
+                        "description": "Bad request"
+                    }
+                }
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "CURP",
+            "description": "CURP"
+        }
+    ]
+}
