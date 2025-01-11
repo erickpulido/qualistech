@@ -28,14 +28,12 @@ class CurpSexo implements ValidationRule
 
         if(is_null($sexo))
         {
-            dump("entra aqui");
             $fail("El género seleccionado no es válido.");
         }
         else
         {
             if($sexo->name !== $sexoCurp)
             {
-                dump("entra aquisss");
                 $fail("El género no corresponde con el del CURP ingresado.");
             }
         }        
