@@ -23,19 +23,15 @@ class CurpSexo implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $sexo = EnumsCurpSexo::tryFrom($value);
+        $sexo = EnumsCurpSexo::tryFrom(Str::ucfirst($value));
         $sexoCurp = Str::substr($this->curp, 10, 1);
 
-        if(is_null($sexo))
-        {
-            $fail("El género seleccionado no es válido.");
-        }
-        else
-        {
-            if($sexo->name !== $sexoCurp)
-            {
-                $fail("El género no corresponde con el del CURP ingresado.");
+        if (is_null($sexo)) {
+            $fail('El género seleccionado no es válido.');
+        } else {
+            if ($sexo->name !== $sexoCurp) {
+                $fail('El género no corresponde con el del CURP ingresado.');
             }
-        }        
+        }
     }
 }

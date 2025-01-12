@@ -22,12 +22,15 @@ class CurpApellido2 implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $apellido2 = Str::substr($value, 0, 1);
-        $apellido2Curp = Str::substr($this->curp, 2, 1);
-        
-        if($apellido2 !== $apellido2Curp)
-        {
-            $fail("El apellido 2 no corresponde con el del CURP ingresado.");
+        $fixedValue = Str::of($value)->transliterate()->upper();
+        $initialLetter = $fixedValue->charAt(0);
+        $lastname = $initialLetter;
+        $curpLastname = Str::substr($this->curp, 2, 1);
+        $firstInnerConsonant = Str::of(preg_replace('/[AEIOU]+/', '', $fixedValue->value()))->charAt(1);
+        $curpFirstInnerConsonant = Str::substr($this->curp, 14, 1);
+
+        if (($lastname !== $curpLastname) || ($firstInnerConsonant !== $curpFirstInnerConsonant)) {
+            $fail('El apellido 2 no corresponde con el del CURP ingresado.');
         }
     }
 }

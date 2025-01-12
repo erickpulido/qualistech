@@ -8,6 +8,6 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:sanctum');
 
-Route::controller(Curp::class)->group(function (){
+Route::controller(Curp::class)->group(function () {
     Route::get('/curp-validate', 'validate');
 });

@@ -10,6 +10,8 @@ class CurpApellido1 implements ValidationRule
 {
     public $curp;
 
+    protected $vowels = 'AEIOU';
+
     public function __construct($curp)
     {
         $this->curp = $curp;
@@ -22,12 +24,16 @@ class CurpApellido1 implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $apellido1 = Str::substr($value, 0, 2);
-        $apellido1Curp = Str::substr($this->curp, 0, 2);
-        
-        if($apellido1 !== $apellido1Curp)
-        {
-            $fail("El apellido 1 no corresponde con el del CURP ingresado.");
+        $fixedValue = Str::of($value)->transliterate()->upper();
+        $initialLetter = $fixedValue->charAt(0);
+        $firstInnerVowel = $fixedValue->charAt(strcspn($fixedValue->value(), $this->vowels));
+        $lastname = $initialLetter.$firstInnerVowel;
+        $curpLastname = Str::substr($this->curp, 0, 2);
+        $firstInnerConsonant = Str::of(preg_replace('/[AEIOU]+/', '', $fixedValue->value()))->charAt(1);
+        $curpFirstInnerConsonant = Str::substr($this->curp, 13, 1);
+
+        if (($lastname !== $curpLastname) || ($firstInnerConsonant !== $curpFirstInnerConsonant)) {
+            $fail('El apellido 1 no corresponde con el del CURP ingresado.');
         }
     }
 }

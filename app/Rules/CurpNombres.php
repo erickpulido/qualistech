@@ -22,12 +22,17 @@ class CurpNombres implements ValidationRule
      */
     public function validate(string $attribute, mixed $value, Closure $fail): void
     {
-        $nombres = Str::substr($value, 0, 1);
-        $nombresCurp = Str::substr($this->curp, 3, 1);
-        
-        if($nombres !== $nombresCurp)
-        {
-            $fail("El nombre no corresponde con el del CURP ingresado.");
+        $fixedValue = Str::of($value)->transliterate()
+            ->trim()
+            ->upper();
+        $fixedName = preg_replace('/^(MARIA|MA|JOSE|J?\.?)\s/', '', $fixedValue);
+        $name = Str::of($fixedName)->charAt(0);
+        $curpName = Str::substr($this->curp, 3, 1);
+        $firstInnerConsonant = Str::of(preg_replace('/[AEIOU]+/', '', $fixedName))->charAt(1);
+        $curpFirstInnerConsonant = Str::substr($this->curp, 15, 1);
+
+        if (($name !== $curpName) || ($firstInnerConsonant !== $curpFirstInnerConsonant)) {
+            $fail('El nombre no corresponde con el del CURP ingresado.');
         }
     }
 }

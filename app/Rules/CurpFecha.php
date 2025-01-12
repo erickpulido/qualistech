@@ -4,8 +4,8 @@ namespace App\Rules;
 
 use Carbon\Carbon;
 use Closure;
-use Illuminate\Support\Str;
 use Illuminate\Contracts\Validation\ValidationRule;
+use Illuminate\Support\Str;
 
 class CurpFecha implements ValidationRule
 {
@@ -25,10 +25,9 @@ class CurpFecha implements ValidationRule
     {
         $fecha = Carbon::parse($value)->setTimezone('UTC')->format('ymd');
         $fechaCurp = Str::substr($this->curp, 4, 6);
-        
-        if($fecha !== $fechaCurp)
-        {
-            $fail("La fecha de nacimiento no corresponde con el del CURP ingresado.");
+
+        if ($fecha !== $fechaCurp) {
+            $fail('La fecha de nacimiento no corresponde con el del CURP ingresado.');
         }
     }
 }
